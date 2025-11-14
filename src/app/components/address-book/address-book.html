@@ -1,0 +1,27 @@
+<div class="address-book-container">
+  <h2>Contacts</h2>
+  <button routerLink="/add">Add Contact</button>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(contact of contacts$ | async; track contact.id) {
+        <tr>
+          <td>{{ contact.name }}</td>
+          <td>{{ contact.email }}</td>
+          <td>{{ contact.phone }}</td>
+          <td>
+            <button [routerLink]="['/edit', contact.id]">Edit</button>
+            <button (click)="deleteContact(contact.id!)">Delete</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
