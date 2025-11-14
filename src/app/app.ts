@@ -1,22 +1,21 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AuthService } from './services/auth.service';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './components/login/login.component';
+import { AuthService } from './services/auth';
 
 @Component({
   selector: 'app-root',
   template: `
-    @if(authService.user$ | async; as user){
-      <router-outlet></router-outlet>
-      <button (click)="logout()">Logout</button>
-    } @else {
-      <app-login></app-login>
-    }
+    <nav>
+      @if(authService.currentUser()){
+        <button (click)="logout()">Logout</button>
+      }
+    </nav>
+    <router-outlet></router-outlet>
   `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterModule, CommonModule, LoginComponent]
+  imports: [RouterModule, CommonModule]
 })
 export class AppComponent {
   authService = inject(AuthService);

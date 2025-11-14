@@ -1,14 +1,25 @@
 import { Routes } from '@angular/router';
 import { AddressBookComponent } from './components/address-book/address-book';
 import { ContactFormComponent } from './components/contact-form/contact-form';
-import { LoginComponent } from './components/login/login.component';
-import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
-
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
+import { LoginComponent } from './components/login';
+import { AuthGuard } from './auth-guard';
 
 export const routes: Routes = [
-  { path: '', component: AddressBookComponent, ...canActivate(redirectUnauthorizedToLogin) },
-  { path: 'add', component: ContactFormComponent, ...canActivate(redirectUnauthorizedToLogin) },
-  { path: 'edit/:id', component: ContactFormComponent, ...canActivate(redirectUnauthorizedToLogin) },
   { path: 'login', component: LoginComponent },
+  {
+    path: 'contacts',
+    component: AddressBookComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'add',
+    component: ContactFormComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'edit/:id',
+    component: ContactFormComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: '', redirectTo: '/contacts', pathMatch: 'full' },
 ];
